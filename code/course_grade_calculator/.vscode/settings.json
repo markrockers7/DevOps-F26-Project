@@ -1,0 +1,4 @@
+{
+    "java.checkstyle.configuration": "${workspaceFolder}\\devops_checks.xml",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
