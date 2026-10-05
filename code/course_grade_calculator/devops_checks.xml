@@ -151,15 +151,4 @@
     <property name="message" value="Line has trailing spaces."/>
     <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
   </module>
-<!-- Added this to remove the checkstyle error for module-info.java file. https://checkstyle.org/filefilters/beforeexecutionexclusionfilefilter.html -->
-  <module name="RegexpOnFilename">
-    <property name="fileNamePattern" value="^[A-Z].*"/>
-    <property name="match" value="false"/>
-    <message key="regexp.filename.mismatch"
-      value="File name must start with an uppercase."/>
-  </module>
-
-  <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value="module\-info\.java$"/>
-  </module>
 </module>
