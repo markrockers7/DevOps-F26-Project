@@ -13,40 +13,40 @@ public class Subcategory {
     private String name;
     private int weight;
     private ArrayList<Grade> grades;
-    private int totalGrades;
-    private int droppedGrades;
+    private int totalGradeCount;
+    private int droppedGradeCount;
 
     /**
      * Creates a Subcategory with the given name, weight, total grades, and dropped grades.
      * Total Grades is what the expected number of grades in the subcategory is supposed to be, if it is zero then there is no limit.
      * Dropped Grades is how many grades are allowed to be dropped from the subcategory, if it is zero then no grades can be dropped.
      * 
-     * @param name
-     * @param weight
-     * @param totalGrades
-     * @param droppedGrades
+     * @param name The name of the subcategory
+     * @param weight The weight of the subcategory
+     * @param totalGradeCount
+     * @param droppedGradeCount
      */
-    public Subcategory(String name, int weight, int totalGrades, int droppedGrades) {
+    public Subcategory(String name, int weight, int totalGradeCount, int droppedGradeCount) {
         if (!this.isValidName(name)) {
             throw new IllegalArgumentException(INVALID_NAME_ERROR);
         }
         if (!this.isValidWeight(weight)) {
             throw new IllegalArgumentException(INVALID_WEIGHT_ERROR);
         }
-        if (totalGrades < 0) {
+        if (totalGradeCount < 0) {
             throw new IllegalArgumentException(NEGATIVE_TOTAL_GRADES_ERROR);
         }
-        if (droppedGrades < 0) {
+        if (droppedGradeCount < 0) {
             throw new IllegalArgumentException(NEGATIVE_DROPPED_GRADES_ERROR);
         }
-        if (!this.isValidTotalGrades(totalGrades, droppedGrades)) {
+        if (!this.isValidTotalGradeCount(totalGradeCount, droppedGradeCount)) {
             throw new IllegalArgumentException(DROPPED_GRADES_GREATER_THAN_TOTAL_ERROR);
         }
         this.name = name;
         this.weight = weight;
         this.grades = new ArrayList<Grade>();
-        this.totalGrades = totalGrades;
-        this.droppedGrades = droppedGrades;
+        this.totalGradeCount = totalGradeCount;
+        this.droppedGradeCount = droppedGradeCount;
     }
 
     //#region Getters
@@ -63,27 +63,29 @@ public class Subcategory {
         return this.grades;
     }
 
-    public int getTotalGrades() {
-        return this.totalGrades;
+    public int getTotalGradeCount() {
+        return this.totalGradeCount;
     }
 
-    public int getDroppedGrades() {
-        return this.droppedGrades;
+    public int getDroppedGradeCount() {
+        return this.droppedGradeCount;
     }
     //#endregion
 
     //#region Private Methods
     private boolean isValidName(String name) {
-        return name == null || name.isEmpty();
+        return name != null && !name.isEmpty();
     }
 
     private boolean isValidWeight(int weight) {
-        return weight < 0 || weight > 100;
+        return weight >= 0 && weight <= 100;
     }
 
-    private boolean isValidTotalGrades(int totalGrades, int droppedGrades) {
-        boolean isSetAmountOfGrades = totalGrades >= 0;
-        return isSetAmountOfGrades && droppedGrades < totalGrades;
+    private boolean isValidTotalGradeCount(int totalGrade, int droppedGrades) {
+        if (totalGrade > 0) {
+            return droppedGrades < totalGrade;
+        }
+        return true;
     }
     //#endregion
 }
