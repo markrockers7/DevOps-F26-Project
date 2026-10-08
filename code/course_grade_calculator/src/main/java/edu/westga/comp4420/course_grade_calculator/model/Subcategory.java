@@ -63,6 +63,24 @@ public class Subcategory {
         return this.grades;
     }
 
+    /**
+     * Adds a grade to the subcategory.
+     * 
+     * @precondition grade != null
+     * @postcondition grades.size() == grades.size()@prev + 1
+     * 
+     * @param grade The grade to add
+     */
+    public void addGrade(Grade grade) {
+        if (grade == null) {
+            throw new IllegalArgumentException("Grade cannot be null");
+        }
+        if (this.totalGradeCount > 0 && this.grades.size() >= this.totalGradeCount) {
+            throw new IllegalArgumentException("Cannot add more grades than the total grade count");
+        }
+        this.grades.add(grade);
+    }
+
     public int getTotalGradeCount() {
         return this.totalGradeCount;
     }
