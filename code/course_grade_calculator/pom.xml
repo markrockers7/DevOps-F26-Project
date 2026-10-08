@@ -143,8 +143,8 @@
 								<rule>
 									<element>PACKAGE</element>
 									<excludes>
-										<exclude>edu.westga.view.codebehind</exclude>
-										<exclude>edu.westga</exclude>
+										<exclude>edu.westga.comp4420.course_grade_calculator</exclude>
+										<exclude>edu.westga.comp4420.course_grade_calculator.view.codebehind</exclude>
 									</excludes>
 									<limits>
 										<limit>
