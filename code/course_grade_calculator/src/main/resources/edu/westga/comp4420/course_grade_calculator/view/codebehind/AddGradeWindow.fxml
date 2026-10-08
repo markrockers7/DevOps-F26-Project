@@ -37,6 +37,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="addGradeAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.comp4420.course_grade_calculator.view.codebehind.AddGradeWindow">
    <children>
@@ -54,5 +55,10 @@
       <Label layoutX="447.0" layoutY="76.0" text="Subsection Details" />
       <ListView fx:id="subsectionDetailsListView" layoutX="420.0" layoutY="100.0" prefHeight="200.0" prefWidth="150.0" />
       <Button fx:id="backButton" layoutX="558.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="200.0" layoutY="59.0" prefHeight="34.0" prefWidth="200.0" text="ERROR" textFill="RED" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -122,4 +122,9 @@ public class Grade {
     public double getPercentage() {
         return (this.score / this.maxScore) * 100;
     }
+
+    @Override
+    public String toString() {
+        return this.name + ": " + this.score + "/" + this.maxScore + "";
+    }
 }
