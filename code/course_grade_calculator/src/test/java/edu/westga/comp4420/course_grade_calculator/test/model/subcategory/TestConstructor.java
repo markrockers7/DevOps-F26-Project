@@ -19,7 +19,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(20, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(3, subcategory.getTotalGradeCount()),
+                () -> assertEquals(3, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -47,7 +47,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(0, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(3, subcategory.getTotalGradeCount()),
+                () -> assertEquals(3, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -57,7 +57,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(1, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(3, subcategory.getTotalGradeCount()),
+                () -> assertEquals(3, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -67,7 +67,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(99, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(3, subcategory.getTotalGradeCount()),
+                () -> assertEquals(3, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -77,7 +77,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(100, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(3, subcategory.getTotalGradeCount()),
+                () -> assertEquals(3, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -99,7 +99,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(20, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(0, subcategory.getTotalGradeCount()),
+                () -> assertEquals(0, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -109,7 +109,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(20, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(1, subcategory.getTotalGradeCount()),
+                () -> assertEquals(1, subcategory.getMaxGradeCount()),
                 () -> assertEquals(0, subcategory.getDroppedGradeCount()));
     }
     //endregion
@@ -126,7 +126,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(20, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(3, subcategory.getTotalGradeCount()),
+                () -> assertEquals(3, subcategory.getMaxGradeCount()),
                 () -> assertEquals(0, subcategory.getDroppedGradeCount()));
     }
 
@@ -136,7 +136,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(20, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(3, subcategory.getTotalGradeCount()),
+                () -> assertEquals(3, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -146,7 +146,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(20, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(0, subcategory.getTotalGradeCount()),
+                () -> assertEquals(0, subcategory.getMaxGradeCount()),
                 () -> assertEquals(1, subcategory.getDroppedGradeCount()));
     }
 
@@ -156,7 +156,7 @@ public class TestConstructor {
         assertAll(() -> assertEquals("Test", subcategory.getName()),
                 () -> assertEquals(20, subcategory.getWeight()),
                 () -> assertTrue(subcategory.getGrades().isEmpty()),
-                () -> assertEquals(0, subcategory.getTotalGradeCount()),
+                () -> assertEquals(0, subcategory.getMaxGradeCount()),
                 () -> assertEquals(0, subcategory.getDroppedGradeCount()));
     }
 
