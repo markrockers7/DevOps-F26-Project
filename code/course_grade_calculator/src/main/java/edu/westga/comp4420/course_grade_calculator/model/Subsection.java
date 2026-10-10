@@ -2,7 +2,7 @@ package edu.westga.comp4420.course_grade_calculator.model;
 
 import java.util.ArrayList;
 
-public class Subcategory {
+public class Subsection {
 
     private static final String INVALID_NAME_ERROR = "Name cannot be null or empty";
     private static final String INVALID_WEIGHT_ERROR = "Weight must be between 0 and 100";
@@ -19,19 +19,19 @@ public class Subcategory {
     private int droppedGradeCount;
 
     /**
-     * Creates a Subcategory with the given name, weight, total grades, and dropped
+     * Creates a Subsection with the given name, weight, total grades, and dropped
      * grades.
-     * Total Grades is what the expected number of grades in the subcategory is
+     * Total Grades is what the expected number of grades in the subsection is
      * supposed to be, if it is zero then there is no limit.
      * Dropped Grades is how many grades are allowed to be dropped from the
-     * subcategory, if it is zero then no grades can be dropped.
+     * subsection, if it is zero then no grades can be dropped.
      * 
-     * @param name              The name of the subcategory
-     * @param weight            The weight of the subcategory
-     * @param maxGradeCount   The total number of grades in the subcategory
-     * @param droppedGradeCount The number of grades that can be dropped from the subcategory
+     * @param name              The name of the subsection
+     * @param weight            The weight of the subsection
+     * @param maxGradeCount     The total number of grades in the subsection
+     * @param droppedGradeCount The number of grades that can be dropped from the subsection
      */
-    public Subcategory(String name, int weight, int maxGradeCount, int droppedGradeCount) {
+    public Subsection(String name, int weight, int maxGradeCount, int droppedGradeCount) {
         if (!this.isValidName(name)) {
             throw new IllegalArgumentException(INVALID_NAME_ERROR);
         }
@@ -57,72 +57,72 @@ public class Subcategory {
     // #region Getters
 
     /**
-     * Gets the name of the subcategory.
+     * Gets the name of the subsection.
      * 
      * @precondition none
      * @postcondition none
      * 
-     * @return The name of the subcategory
+     * @return The name of the subsection
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Gets the weight of the subcategory.
+     * Gets the weight of the subsection.
      * 
      * @precondition none
      * @postcondition none
      * 
-     * @return The weight of the subcategory
+     * @return The weight of the subsection
      */
     public int getWeight() {
         return this.weight;
     }
 
     /**
-     * Gets the grades of the subcategory.
+     * Gets the grades of the subsection.
      * 
      * @precondition none
      * @postcondition none
      * 
-     * @return The grades of the subcategory
+     * @return The grades of the subsection
      */
     public ArrayList<Grade> getGrades() {
         return this.grades;
     }
 
     /**
-     * Gets the total grade count of the subcategory.
+     * Gets the total grade count of the subsection.
      * 
      * @precondition none
      * @postcondition none
      * 
-     * @return The total grade count of the subcategory
+     * @return The total grade count of the subsection
      */
     public int getMaxGradeCount() {
         return this.maxGradeCount;
     }
 
     /**
-     * Gets the dropped grade count of the subcategory.
+     * Gets the dropped grade count of the subsection.
      * 
      * @precondition none
      * @postcondition none
      * 
-     * @return The dropped grade count of the subcategory
+     * @return The dropped grade count of the subsection
      */
     public int getDroppedGradeCount() {
         return this.droppedGradeCount;
     }
 
     /**
-     * Calculates the average grade of the subcategory, taking into account any dropped grades.
+     * Calculates the average grade of the subsection, taking into account any dropped grades.
      * 
      * @precondition none
      * @postcondition none
      * 
-     * @return the average grade of the subcategory, or 0.0 if there are no grades or not enough grades to calculate an average
+     * @return the average grade of the subsection, or 0.0 if there are no grades or not enough grades to calculate an average
      */
     public double getAverageGrade() {
         if (this.grades.isEmpty()) {
@@ -150,12 +150,12 @@ public class Subcategory {
     }
 
     /**
-     * Calculates the weighted average grade of the subcategory.
+     * Calculates the weighted average grade of the subsection.
      * 
      * @precondition none
      * @postcondition none
      * 
-     * @return the weighted average grade of the subcategory
+     * @return the weighted average grade of the subsection
      */
     public double getWeightedAverageGrade() {
         return this.getAverageGrade() * (this.weight / 100.0);
@@ -164,7 +164,7 @@ public class Subcategory {
     // #endregion
 
     /**
-     * Adds a grade to the subcategory.
+     * Adds a grade to the subsection.
      * 
      * @precondition grade != null
      * @postcondition grades.size() == grades.size()@prev + 1
