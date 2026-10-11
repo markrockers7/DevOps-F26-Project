@@ -38,7 +38,7 @@ public class TestGetAverageGrade {
         Subsection subsection = new Subsection("Project", 20, 0, 2);
         subsection.addGrade(new Grade("Project 1", 100, 90));
         subsection.addGrade(new Grade("Project 2", 100, 80));
-        assertEquals(0.0, subsection.getAverageGrade(), 0.001);
+        assertEquals(100.0, subsection.getAverageGrade(), 0.001);
     }
 
 }

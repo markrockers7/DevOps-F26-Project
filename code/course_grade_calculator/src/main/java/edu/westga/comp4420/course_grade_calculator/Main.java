@@ -16,7 +16,7 @@ import java.io.IOException;
 public class Main extends Application {
 
     public static final String WINDOW_TITLE = "Course Grade Calculator";
-	public static final String MAIN_WINDOW_RESOURCE = "view/codebehind/CreateCourseWindow.fxml";
+	public static final String MAIN_WINDOW_RESOURCE = "view/codebehind/CourseSelectionWindow.fxml";
 
     /**
      * JavaFX entry point

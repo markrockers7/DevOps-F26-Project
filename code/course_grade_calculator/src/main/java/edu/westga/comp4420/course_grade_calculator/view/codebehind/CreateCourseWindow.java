@@ -1,5 +1,8 @@
 package edu.westga.comp4420.course_grade_calculator.view.codebehind;
 
+import java.util.ArrayList;
+
+import edu.westga.comp4420.course_grade_calculator.model.Course;
 import edu.westga.comp4420.course_grade_calculator.model.Subsection;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -65,7 +68,49 @@ public class CreateCourseWindow {
 
     @FXML
     void onAddCourseClick()  {
-        // Add course logic here
+        var courseName = this.courseNameTextField.textProperty().get().trim();
+        var courseID = this.courseIDTextField.textProperty().get().trim();
+        var semester = this.semesterTextField.textProperty().get().trim();
+        if (courseName.isEmpty()) {
+            this.setError("Course name cannot be empty.");
+            return;
+        }
+        if (courseID.isEmpty()) {
+            this.setError("Course ID cannot be empty.");
+            return;
+        }
+        if (semester.isEmpty()) {
+            this.setError("Semester cannot be empty.");
+            return;
+        }
+        if (this.subsectionsListView.getItems().isEmpty()) {
+            this.setError("At least one subsection must be added.");
+            return;
+        }
+        if (!this.isTotalWeightValid()) {
+            this.setError("Total weight of all subsections must equal 100%.");
+            return;
+        }
+        ArrayList<Subsection> subsections = new ArrayList<Subsection>(this.subsectionsListView.getItems());
+
+        this.tryCreateCourse(courseName, courseID, semester, subsections);
+    }
+
+    //TODO Remove the print statements and add the course to Course Selection Window
+    private void tryCreateCourse(String courseName, String courseID, String semester, ArrayList<Subsection> subsections) {
+        try {
+            var course = new Course(courseName, courseID, semester, subsections);
+            System.out.println("Course Name: " + course.getName());
+            System.out.println("Course ID: " + course.getCourseId());
+            System.out.println("Semester: " + course.getSemester());
+            for (Subsection subsection : course.getSubsections()) {
+                System.out.println(subsection);
+            }
+            this.errorLabel.setVisible(false);
+            this.clearAllFields();
+        } catch (IllegalArgumentException e) {
+            this.setError(e.getMessage());
+        }
     }
 
     @FXML
@@ -81,8 +126,7 @@ public class CreateCourseWindow {
         var droppedGrades = this.droppedGradesTextField.textProperty().get().trim();
 
         if (subsectionName.isEmpty() || subsectionWeight.isEmpty() || maxGrades.isEmpty() || droppedGrades.isEmpty()) {
-            this.errorLabel.setText("All fields must be not empty.");
-            this.errorLabel.setVisible(true);
+            this.setError("All fields must be not empty.");
             return;
         }
 
@@ -99,8 +143,7 @@ public class CreateCourseWindow {
             this.clearSubsectionFields();
             this.errorLabel.setVisible(false);
         } catch (IllegalArgumentException e) {
-            this.errorLabel.setText(e.getMessage());
-            this.errorLabel.setVisible(true);
+            this.setError(e.getMessage());
         }
     }
 
@@ -148,11 +191,36 @@ public class CreateCourseWindow {
         this.droppedGradesTextField.clear();
     }
 
+    private void clearCourseFields() {
+        this.courseNameTextField.clear();
+        this.courseIDTextField.clear();
+        this.semesterTextField.clear();
+        this.subsectionsListView.getItems().clear();
+    }
+
+    private void clearAllFields() {
+        this.clearCourseFields();
+        this.clearSubsectionFields();
+    }
+
+    private void setError(String message) {
+        this.errorLabel.setText(message);
+        this.errorLabel.setVisible(true);
+    }
+
     private boolean canAddSubsection(int subsectionWeightNumber) {
         var totalWeight = 0;
         for (Subsection existingSubsection : this.subsectionsListView.getItems()) {
             totalWeight += existingSubsection.getWeight();
         }
         return totalWeight + subsectionWeightNumber <= 100;
+    }
+
+    private boolean isTotalWeightValid() {
+        var totalWeight = 0;
+        for (Subsection existingSubsection : this.subsectionsListView.getItems()) {
+            totalWeight += existingSubsection.getWeight();
+        }
+        return totalWeight == 100;
     }
 }

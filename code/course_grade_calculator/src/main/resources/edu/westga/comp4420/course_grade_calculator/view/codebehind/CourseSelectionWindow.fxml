@@ -8,18 +8,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="courseSelectionAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="courseSelectionAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.comp4420.course_grade_calculator.view.codebehind.CourseSelectionWindow">
    <children>
       <ListView fx:id="courseListView" layoutX="22.0" layoutY="102.0" prefHeight="200.0" prefWidth="150.0" />
       <Label layoutX="76.0" layoutY="77.0" text="Courses" />
-      <Button fx:id="inputGradesButton" layoutX="54.0" layoutY="307.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Input Grades" />
-      <Button fx:id="deleteCourseButton" layoutX="97.0" layoutY="340.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" text="Delete Course" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="inputGradesButton" layoutX="54.0" layoutY="307.0" mnemonicParsing="false" onAction="#onInputGradeClick" prefHeight="26.0" prefWidth="85.0" text="Input Grades" />
+      <Button fx:id="deleteCourseButton" layoutX="97.0" layoutY="340.0" mnemonicParsing="false" onAction="#onDeleteCourseClick" prefHeight="40.0" prefWidth="70.0" text="Delete Course" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <Button fx:id="createCourseButton" layoutX="22.0" layoutY="340.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" text="Create Course" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="createCourseButton" layoutX="22.0" layoutY="340.0" mnemonicParsing="false" onAction="#onCreateCourseClick" prefHeight="40.0" prefWidth="70.0" text="Create Course" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="10.0" />
          </font>
@@ -33,6 +32,7 @@
             <TableColumn fx:id="weightTableColumn" text="Weight" />
         </columns>
       </TableView>
-      <Label layoutX="337.0" layoutY="49.0" text="Course Informaion" />
+      <Label layoutX="335.0" layoutY="51.0" text="Course Information" />
+      <Label fx:id="courseGradeResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="236.0" layoutY="351.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" text="GRADE" textAlignment="CENTER" />
    </children>
 </AnchorPane>

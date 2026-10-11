@@ -20,7 +20,8 @@ public class TestConstructor {
                 () -> assertEquals(20, subsection.getWeight()),
                 () -> assertTrue(subsection.getGrades().isEmpty()),
                 () -> assertEquals(3, subsection.getMaxGradeCount()),
-                () -> assertEquals(1, subsection.getDroppedGradeCount()));
+                () -> assertEquals(1, subsection.getDroppedGradeCount()),
+                () -> assertEquals("Test (Weight: 20%)", subsection.toString()));
     }
 
     //region Name Tests
