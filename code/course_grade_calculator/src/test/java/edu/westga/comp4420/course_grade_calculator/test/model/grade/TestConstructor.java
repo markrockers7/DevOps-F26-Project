@@ -2,6 +2,7 @@ package edu.westga.comp4420.course_grade_calculator.test.model.grade;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,6 +19,7 @@ class TestConstructor {
             assertTrue(grade.getName().equals("Test"));
             assertTrue(grade.getMaxScore() == 100);
             assertTrue(grade.getScore() == 90);
+            assertEquals("Test: 90.0/100", grade.toString());
         });
     }
 
