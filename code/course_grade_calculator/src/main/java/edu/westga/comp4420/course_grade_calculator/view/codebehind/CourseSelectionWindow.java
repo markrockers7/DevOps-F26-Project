@@ -95,7 +95,9 @@ public class CourseSelectionWindow {
 
     @FXML
     void onDeleteCourseClick() {
-
+        if (this.courseListView.getSelectionModel().getSelectedItem() != null) {
+            this.courses.remove(this.courseListView.getSelectionModel().getSelectedItem());
+        }
     }
 
     @FXML
