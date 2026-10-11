@@ -1,16 +1,24 @@
 package edu.westga.comp4420.course_grade_calculator.view.codebehind;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.westga.comp4420.course_grade_calculator.Main;
 import edu.westga.comp4420.course_grade_calculator.model.Course;
 import edu.westga.comp4420.course_grade_calculator.model.Subsection;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 
 
@@ -148,7 +156,21 @@ public class CreateCourseWindow {
 
     @FXML
     void onBackClick() {
-        // Back button logic here
+        try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource(Main.COURSE_SELECTION_WINDOW));
+			loader.load();
+			Parent parent = loader.getRoot();
+			Scene scene = new Scene(parent);
+			Stage activeStage = (Stage) this.backButton.getScene().getWindow();
+            activeStage.setTitle(Main.WINDOW_TITLE);
+			activeStage.setScene(scene);
+			activeStage.show();
+		} catch (IOException error) {
+			Alert errorBox = new Alert(AlertType.ERROR);
+			errorBox.setContentText("Unable to open add window");
+			errorBox.showAndWait();
+		}
     }
 
     private void setBindings() {
