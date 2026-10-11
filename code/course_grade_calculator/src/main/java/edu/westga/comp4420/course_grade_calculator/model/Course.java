@@ -9,13 +9,13 @@ public class Course {
     private static final String INVALID_NAME_ERROR = "Name cannot be null or empty";
     private static final String INVALID_COURSE_ID_ERROR = "Course ID cannot be null or empty";
     private static final String INVALID_SEMESTER_ERROR = "Semester cannot be null or empty";
-    private static final String INVALID_SUBCATEGORY_NULL_ERROR = "Subcategories cannot be null";
-    private static final String INVALID_SUBCATEGORY_WEIGHT_ERROR = "Total weight of subcategories must equal " + MANDATORY_WEIGHT;
+    private static final String INVALID_SUBSECTION_NULL_ERROR = "Subsections cannot be null";
+    private static final String INVALID_SUBSECTION_WEIGHT_ERROR = "Total weight of subsections must equal " + MANDATORY_WEIGHT;
 
     private String name;
     private String courseId;
     private String semester;
-    private ArrayList<Subcategory> subcategories;
+    private ArrayList<Subsection> subsections;
 
     /**
      * Creates a Course with the given name, course ID, and semester.
@@ -23,9 +23,9 @@ public class Course {
      * @param name     The name of the course
      * @param courseId The course ID of the course
      * @param semester The semester of the course
-     * @param subcategories The subcategories of the course
+     * @param subsections The subsections of the course
      */
-    public Course(String name, String courseId, String semester, ArrayList<Subcategory> subcategories) {
+    public Course(String name, String courseId, String semester, ArrayList<Subsection> subsections) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException(INVALID_NAME_ERROR);
         }
@@ -35,16 +35,16 @@ public class Course {
         if (semester == null || semester.isEmpty()) {
             throw new IllegalArgumentException(INVALID_SEMESTER_ERROR);
         }
-        if (subcategories == null) {
-            throw new IllegalArgumentException(INVALID_SUBCATEGORY_NULL_ERROR);
+        if (subsections == null) {
+            throw new IllegalArgumentException(INVALID_SUBSECTION_NULL_ERROR);
         }
-        if (!this.isTotalWeightValid(subcategories)) {
-            throw new IllegalArgumentException(INVALID_SUBCATEGORY_WEIGHT_ERROR);
+        if (!this.isTotalWeightValid(subsections)) {
+            throw new IllegalArgumentException(INVALID_SUBSECTION_WEIGHT_ERROR);
         }
         this.name = name;
         this.courseId = courseId;
         this.semester = semester;
-        this.subcategories = subcategories;
+        this.subsections = subsections;
     }
 
     //#region Getters
@@ -85,29 +85,29 @@ public class Course {
     }
 
     /**
-     * Returns the subcategories of the course.
+     * Returns the Subsections of the course.
      * 
      * @precondition none
      * @postcondition none
      *
-     * @return The subcategories of the course
+     * @return The Subsections of the course
      */
-    public ArrayList<Subcategory> getSubcategories() {
-        return this.subcategories;
+    public ArrayList<Subsection> getSubsections() {
+        return this.subsections;
     }
     //#endregion
 
     //#region Private Methods
 
-    private int getTotalWeight(ArrayList<Subcategory> subcategories) {
+    private int getTotalWeight(ArrayList<Subsection> subsections) {
         int totalWeight = 0;
-        for (Subcategory subcategory : subcategories) {
-            totalWeight += subcategory.getWeight();
+        for (Subsection subsection : subsections) {
+            totalWeight += subsection.getWeight();
         }
         return totalWeight;
     }
-    private boolean isTotalWeightValid(ArrayList<Subcategory> subcategories) {
-        return this.getTotalWeight(subcategories) == MANDATORY_WEIGHT;
+    private boolean isTotalWeightValid(ArrayList<Subsection> subsections) {
+        return this.getTotalWeight(subsections) == MANDATORY_WEIGHT;
     }
     //#endregion
 }

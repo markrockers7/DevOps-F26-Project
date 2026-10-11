@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import edu.westga.comp4420.course_grade_calculator.model.Course;
-import edu.westga.comp4420.course_grade_calculator.model.Subcategory;
+import edu.westga.comp4420.course_grade_calculator.model.Subsection;
 
 public class TestConstructor {
 
@@ -18,81 +18,81 @@ public class TestConstructor {
     private static final String VALID_COURSE_ID = "COMP 4420";
     private static final String VALID_SEMESTER = "Fall 2026";
 
-    private ArrayList<Subcategory> subcategories;
+    private ArrayList<Subsection> subsections;
 
     @BeforeEach 
     void setUp() {
-        Subcategory subcategory = new Subcategory("Exam", 100, 0, 0);
-        ArrayList<Subcategory> subcategories = new ArrayList<Subcategory>();
-        subcategories.add(subcategory);
-        this.subcategories = subcategories;
+        Subsection subsection = new Subsection("Exam", 100, 0, 0);
+        ArrayList<Subsection> subsections = new ArrayList<Subsection>();
+        subsections.add(subsection);
+        this.subsections = subsections;
     }
 
     @Test
     void testValidConstructor() {
-        Course course = new Course(VALID_NAME, VALID_COURSE_ID, VALID_SEMESTER, this.subcategories);
+        Course course = new Course(VALID_NAME, VALID_COURSE_ID, VALID_SEMESTER, this.subsections);
         assertAll(
             () -> assertEquals(VALID_NAME, course.getName()),
             () -> assertEquals(VALID_COURSE_ID, course.getCourseId()),
             () -> assertEquals(VALID_SEMESTER, course.getSemester()),
-            () -> assertEquals(1, course.getSubcategories().size())
+            () -> assertEquals(1, course.getSubsections().size())
         );
     }
 
     //#region Invalid Name Tests
     @Test
     void testConstructorWithNullName() {
-        assertThrows(IllegalArgumentException.class, () -> new Course(null, VALID_COURSE_ID, VALID_SEMESTER, this.subcategories));
+        assertThrows(IllegalArgumentException.class, () -> new Course(null, VALID_COURSE_ID, VALID_SEMESTER, this.subsections));
     }
 
     @Test
     void testConstructorWithEmptyName() {
-        assertThrows(IllegalArgumentException.class, () -> new Course("", VALID_COURSE_ID, VALID_SEMESTER, this.subcategories));
+        assertThrows(IllegalArgumentException.class, () -> new Course("", VALID_COURSE_ID, VALID_SEMESTER, this.subsections));
     }
     //#endregion
 
     //#region Invalid Course ID Tests
     @Test
     void testConstructorWithNullCourseId() {
-        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, null, VALID_SEMESTER, this.subcategories));
+        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, null, VALID_SEMESTER, this.subsections));
     }
 
     @Test
     void testConstructorWithEmptyCourseId() {
-        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, "", VALID_SEMESTER, this.subcategories));
+        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, "", VALID_SEMESTER, this.subsections));
     }
     //#endregion
 
     //#region Invalid Semester Tests
     @Test
     void testConstructorWithNullSemester() {
-        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, null, this.subcategories));
+        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, null, this.subsections));
     }
 
     @Test
     void testConstructorWithEmptySemester() {
-        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, "", this.subcategories));
+        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, "", this.subsections));
     }
     //#endregion
 
-    //#region Invalid Subcategory Tests
+    //#region Invalid Subsection Tests
     @Test
-    void testConstructorWithNullSubcategories() {
+    void testConstructorWithNullSubsections() {
         assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, VALID_SEMESTER, null));
     }
 
     @Test
-    void testConstructorWithEmptySubcategories() {
-        ArrayList<Subcategory> emptySubcategories = new ArrayList<Subcategory>();
-        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, VALID_SEMESTER, emptySubcategories));
+    void testConstructorWithEmptySubsections() {
+        ArrayList<Subsection> emptySubsections = new ArrayList<Subsection>();
+        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, VALID_SEMESTER, emptySubsections));
     }
 
     @Test
-    void testConstructorWithInvalidSubcategoryWeight() {
-        Subcategory subcategory1 = new Subcategory("Quiz", 99, 0, 0);
-        ArrayList<Subcategory> invalidSubcategories = new ArrayList<Subcategory>();
-        invalidSubcategories.add(subcategory1);
-        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, VALID_SEMESTER, invalidSubcategories));
+    void testConstructorWithInvalidSubsectionWeight() {
+        Subsection subsection = new Subsection("Quiz", 99, 0, 0);
+        ArrayList<Subsection> invalidSubsections = new ArrayList<Subsection>();
+        invalidSubsections.add(subsection);
+        assertThrows(IllegalArgumentException.class, () -> new Course(VALID_NAME, VALID_COURSE_ID, VALID_SEMESTER, invalidSubsections));
     }
     //#endregion
 
