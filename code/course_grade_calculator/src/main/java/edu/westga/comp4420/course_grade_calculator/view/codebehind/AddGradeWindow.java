@@ -3,7 +3,9 @@ package edu.westga.comp4420.course_grade_calculator.view.codebehind;
 import java.io.IOException;
 
 import edu.westga.comp4420.course_grade_calculator.Main;
+import edu.westga.comp4420.course_grade_calculator.model.Course;
 import edu.westga.comp4420.course_grade_calculator.model.Grade;
+import edu.westga.comp4420.course_grade_calculator.model.Subsection;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,7 +49,7 @@ public class AddGradeWindow {
     private Button cancelButton;
 
     @FXML
-    private ListView<?> subsectionDetailsListView;
+    private ListView<Subsection> courseSubsectionListView;
 
     @FXML
     private Button backButton;
@@ -55,10 +57,20 @@ public class AddGradeWindow {
     @FXML
     private Label errorLabel;
 
+    private Course course;
+
     @FXML
     void initialize() {
         this.errorLabel.setVisible(false);
         this.setBindings();
+    }
+
+    public void setCourse(Course course) {
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null");
+        }
+        this.course = course;
+        this.loadCourseSubsections();
     }
 
     @FXML
@@ -88,7 +100,13 @@ public class AddGradeWindow {
             }
 
             Grade newGrade = new Grade(gradeName, maxPointsValue, actualPointsValue);
-            this.subsectionGradesListView.getItems().add(newGrade);
+            if (this.courseSubsectionListView.getSelectionModel().getSelectedItem() == null) {
+                this.errorLabel.setText("Please select a subsection to add the grade to.");
+                this.errorLabel.setVisible(true);
+                return;
+            }
+            this.courseSubsectionListView.getSelectionModel().getSelectedItem().addGrade(newGrade);
+            this.loadSubsectionGrades(this.courseSubsectionListView.getSelectionModel().getSelectedItem());
             this.errorLabel.setVisible(false);
             this.clearFields();
 
@@ -115,6 +133,8 @@ public class AddGradeWindow {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource(Main.COURSE_SELECTION_WINDOW));
 			loader.load();
+            CourseSelectionWindow controller = loader.getController();
+            controller.loadCourse(this.course);
 			Parent parent = loader.getRoot();
 			Scene scene = new Scene(parent);
 			Stage activeStage = (Stage) this.backButton.getScene().getWindow();
@@ -135,6 +155,10 @@ public class AddGradeWindow {
         this.deleteGradeButton.disableProperty().bind(
             this.subsectionGradesListView.getSelectionModel().selectedItemProperty().isNull()
         );
+
+        this.courseSubsectionListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            this.loadSubsectionGrades(newValue);
+        });
     }
 
     private void setAddButtonToggling() {
@@ -156,5 +180,19 @@ public class AddGradeWindow {
                 this.actualPointsTextField.setText(oldValue);
             }
         });
+    }
+
+    private void loadCourseSubsections() {
+        if (this.course != null) {
+            this.courseSubsectionListView.getItems().clear();
+            this.courseSubsectionListView.getItems().addAll(this.course.getSubsections());
+        }
+    }
+
+    private void loadSubsectionGrades(Subsection subsection) {
+        if (subsection != null) {
+            this.subsectionGradesListView.getItems().clear();
+            this.subsectionGradesListView.getItems().addAll(subsection.getGrades());
+        }
     }
 }

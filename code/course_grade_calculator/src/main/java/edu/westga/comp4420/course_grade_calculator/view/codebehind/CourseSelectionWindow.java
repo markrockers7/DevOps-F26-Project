@@ -1,13 +1,22 @@
 package edu.westga.comp4420.course_grade_calculator.view.codebehind;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.westga.comp4420.course_grade_calculator.Main;
 import edu.westga.comp4420.course_grade_calculator.model.Course;
 import edu.westga.comp4420.course_grade_calculator.model.Grade;
 import edu.westga.comp4420.course_grade_calculator.model.Subsection;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -15,6 +24,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class CourseSelectionWindow {
 
@@ -54,13 +64,14 @@ public class CourseSelectionWindow {
     @FXML
     private Label courseGradeResultLabel;
 
+    private ObservableList<Course> courses;
+
     @FXML
     void initialize() {
+        this.courses = FXCollections.observableArrayList();
         this.setBindings();
         this.inputDummyCourse();
         this.setTableViewFormatting();
-
-        this.courseListView.getSelectionModel().selectedItemProperty().addListener((obs, oldCourse, course) -> this.showCourse(course));
     }
 
     @FXML
@@ -75,12 +86,41 @@ public class CourseSelectionWindow {
 
     @FXML
     void onInputGradeClick() {
+        var selectedCourse = this.courseListView.getSelectionModel().getSelectedItem();
+        if (selectedCourse != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(Main.class.getResource(Main.ADD_GRADE_WINDOW));
+                loader.load();
+                AddGradeWindow addGradeWindow = loader.getController();
+                addGradeWindow.setCourse(selectedCourse);
+                Parent parent = loader.getRoot();
+                Scene scene = new Scene(parent);
+                Stage activeStage = (Stage) this.inputGradesButton.getScene().getWindow();
+                activeStage.setTitle("Add Grade");
+                activeStage.setScene(scene);
+                activeStage.show();
+            } catch (IOException error) {
+                Alert errorBox = new Alert(AlertType.ERROR);
+                errorBox.setContentText("Unable to open add window");
+                errorBox.showAndWait();
+            }
+        }
 
+    }
+
+    public void loadCourse(Course course) {
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null");
+        }
+        this.courses.add(course);
     }
 
     private void setBindings() {
         this.inputGradesButton.disableProperty().bind(this.courseListView.getSelectionModel().selectedItemProperty().isNull());
         this.deleteCourseButton.disableProperty().bind(this.courseListView.getSelectionModel().selectedItemProperty().isNull());
+        this.courseListView.getSelectionModel().selectedItemProperty().addListener((obs, oldCourse, course) -> this.showCourse(course));
+        this.courseListView.setItems(this.courses);
     }
 
     private void setTableViewFormatting() {
@@ -153,6 +193,6 @@ public class CourseSelectionWindow {
         subsections.add(projects);
         subsections.add(labs);
         var course = new Course("DevOps", "COMP 4420", "Fall 2026", subsections);
-        this.courseListView.getItems().add(course);
+        this.courses.add(course);
     }
 }
