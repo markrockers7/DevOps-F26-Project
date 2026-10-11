@@ -94,4 +94,25 @@ public class TestGetEndGrade {
         subsection.addGrade(new Grade("Exam 1", 100, 60));
         assertEquals(100.0, subsection.getEndGrade(), 0.01);
     }
+
+    @Test
+    void testGetEndGradeWithGradeMaxGreaterThan100() {
+        var subsection = new Subsection(TEST_SUBSECTION_NAME, 100, 3, 0);
+        subsection.addGrade(new Grade("Exam 1", 150, 80));
+        subsection.addGrade(new Grade("Exam 2", 150, 70));
+        var expectedEndGrade = (((80.0 / 150) * 100.0) + ((70.0 / 150) * 100.0) + 100.0) / 3.0;
+        assertEquals(expectedEndGrade, subsection.getEndGrade(), 0.01);
+    }
+
+    @Test
+    void testGradesWithGradesThatHaveUnevenPercentages() {
+        var midtermExams = new Subsection("Midterm Exams", 30, 2, 0);
+        var midtermExam1 = new Grade("Midterm 1", 103, 88);
+        var midtermExam2 = new Grade("Midterm 2", 100, 92);
+        midtermExams.addGrade(midtermExam1);
+        midtermExams.addGrade(midtermExam2);
+
+        var expectedEndGrade = ((88.0 / 103) * 100.0 + (92.0 / 100) * 100.0) / 2.0;
+        assertEquals(expectedEndGrade, midtermExams.getEndGrade(), 0.01);
+    }
 }

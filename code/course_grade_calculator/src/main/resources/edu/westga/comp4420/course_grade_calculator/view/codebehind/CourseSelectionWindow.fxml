@@ -32,6 +32,7 @@
             <TableColumn fx:id="weightTableColumn" text="Weight" />
         </columns>
       </TableView>
-      <Label layoutX="337.0" layoutY="49.0" text="Course Informaion" />
+      <Label layoutX="335.0" layoutY="51.0" text="Course Information" />
+      <Label fx:id="courseGradeResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="236.0" layoutY="351.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" text="GRADE" textAlignment="CENTER" />
    </children>
 </AnchorPane>

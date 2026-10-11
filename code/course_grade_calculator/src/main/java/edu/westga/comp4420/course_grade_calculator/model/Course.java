@@ -95,6 +95,43 @@ public class Course {
     public ArrayList<Subsection> getSubsections() {
         return this.subsections;
     }
+
+    /**
+     * Returns the weighted average grade of the course.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The weighted average grade of the course
+     */
+    public double getWeightedAverageGrade() {
+        double totalWeightedScore = 0;
+        for (Subsection subsection : this.subsections) {
+            totalWeightedScore += subsection.getWeightedAverageGrade();
+        }
+        return totalWeightedScore;
+    }
+
+    /**
+     * Returns the weighted end grade of the course.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The weighted end grade of the course
+     */
+    public double getWeightedEndGrade() {
+        double totalWeightedScore = 0;
+        for (Subsection subsection : this.subsections) {
+            totalWeightedScore += subsection.getWeightedEndGrade();
+        }
+        return totalWeightedScore;
+    }
+
+    @Override 
+    public String toString() {
+        return this.name + " (" + this.courseId + ") - " + this.semester;
+    }
     //#endregion
 
     //#region Private Methods

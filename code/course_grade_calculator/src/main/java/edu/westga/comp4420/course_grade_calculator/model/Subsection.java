@@ -93,6 +93,18 @@ public class Subsection {
     }
 
     /**
+     * Gets the grade count of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The grade count of the subsection
+     */
+    public int getGradeCount() {
+        return this.grades.size();
+    }
+
+    /**
      * Gets the total grade count of the subsection.
      * 
      * @precondition none
@@ -131,7 +143,7 @@ public class Subsection {
         double total = DEFAULT_MINIMUM_GRADE;
         if (!this.hasDroppedGrades()) {
             for (Grade grade : this.grades) {
-                total += grade.getScore();
+                total += grade.getPercentage();
             }
             total = total / this.grades.size();
         } else {
@@ -139,7 +151,7 @@ public class Subsection {
                 ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
                 sortedGrades.sort((g1, g2) -> Double.compare(g1.getScore(), g2.getScore()));
                 for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
-                    total += sortedGrades.get(i).getScore();
+                    total += sortedGrades.get(i).getPercentage();
                 }
                 total = total / (sortedGrades.size() - this.droppedGradeCount);
             } else {
@@ -184,11 +196,23 @@ public class Subsection {
         return total;
     }
 
+    /**
+     * Calculates the weighted end grade of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return the weighted end grade of the subsection
+     */
+    public double getWeightedEndGrade() {
+        return this.getEndGrade() * (this.weight / 100.0);
+    }
+
     private double droppedGradesEndGrade(double total) {
         if (this.hasMoreGradesThanDropped()) {
             if (this.hasLessGradesThanMax()) {
                 ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
-                sortedGrades.sort((g1, g2) -> Double.compare(g1.getScore(), g2.getScore()));
+                sortedGrades.sort((g1, g2) -> Double.compare(g1.getPercentage(), g2.getPercentage()));
                 for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
                     total += sortedGrades.get(i).getPercentage();
                 }
@@ -198,9 +222,9 @@ public class Subsection {
                 total = total / (this.maxGradeCount - this.droppedGradeCount);
             } else {
                 ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
-                sortedGrades.sort((g1, g2) -> Double.compare(g1.getScore(), g2.getScore()));
+                sortedGrades.sort((g1, g2) -> Double.compare(g1.getPercentage(), g2.getPercentage()));
                 for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
-                    total += sortedGrades.get(i).getScore();
+                    total += sortedGrades.get(i).getPercentage();
                 }
                 total = total / (sortedGrades.size() - this.droppedGradeCount);
             }
@@ -221,7 +245,7 @@ public class Subsection {
             total = total / this.maxGradeCount;
         } else {
             for (Grade grade : this.grades) {
-                total += grade.getScore();
+                total += grade.getPercentage();
             }
             total = total / this.maxGradeCount;
         }
