@@ -96,7 +96,6 @@ public class CreateCourseWindow {
         this.tryCreateCourse(courseName, courseID, semester, subsections);
     }
 
-    //TODO Remove the print statements and add the course to Course Selection Window
     private void tryCreateCourse(String courseName, String courseID, String semester, ArrayList<Subsection> subsections) {
         try {
             var course = new Course(courseName, courseID, semester, subsections);
