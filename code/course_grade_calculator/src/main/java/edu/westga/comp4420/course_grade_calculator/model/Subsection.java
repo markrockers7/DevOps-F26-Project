@@ -181,6 +181,11 @@ public class Subsection {
         this.grades.add(grade);
     }
 
+    @Override
+    public String toString() {
+        return this.name + " (Weight: " + this.weight + "%)";
+    }
+
     // #region Private Methods
     private boolean isValidName(String name) {
         return name != null && !name.isEmpty();
