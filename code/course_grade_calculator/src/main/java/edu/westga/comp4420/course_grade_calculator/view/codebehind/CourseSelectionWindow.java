@@ -76,7 +76,21 @@ public class CourseSelectionWindow {
 
     @FXML
     void onCreateCourseClick() {
-
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource(Main.CREATE_COURSE_WINDOW));
+            loader.load();
+            Parent parent = loader.getRoot();
+            Scene scene = new Scene(parent);
+            Stage activeStage = (Stage) this.inputGradesButton.getScene().getWindow();
+            activeStage.setTitle("Add Grade");
+            activeStage.setScene(scene);
+            activeStage.show();
+        } catch (IOException error) {
+            Alert errorBox = new Alert(AlertType.ERROR);
+            errorBox.setContentText("Unable to open add window");
+            errorBox.showAndWait();
+        }
     }
 
     @FXML

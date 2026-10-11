@@ -107,15 +107,23 @@ public class CreateCourseWindow {
     private void tryCreateCourse(String courseName, String courseID, String semester, ArrayList<Subsection> subsections) {
         try {
             var course = new Course(courseName, courseID, semester, subsections);
-            System.out.println("Course Name: " + course.getName());
-            System.out.println("Course ID: " + course.getCourseId());
-            System.out.println("Semester: " + course.getSemester());
-            for (Subsection subsection : course.getSubsections()) {
-                System.out.println(subsection);
-            }
-            this.errorLabel.setVisible(false);
-            this.clearAllFields();
-        } catch (IllegalArgumentException e) {
+
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource(Main.COURSE_SELECTION_WINDOW));
+			loader.load();
+            CourseSelectionWindow controller = loader.getController();
+            controller.loadCourse(course);
+			Parent parent = loader.getRoot();
+			Scene scene = new Scene(parent);
+			Stage activeStage = (Stage) this.backButton.getScene().getWindow();
+            activeStage.setTitle(Main.WINDOW_TITLE);
+			activeStage.setScene(scene);
+			activeStage.show();
+		} catch (IOException error) {
+			Alert errorBox = new Alert(AlertType.ERROR);
+			errorBox.setContentText("Unable to open add window");
+			errorBox.showAndWait();
+		} catch (IllegalArgumentException e) {
             this.setError(e.getMessage());
         }
     }
@@ -210,18 +218,6 @@ public class CreateCourseWindow {
         this.subsectionWeightTextField.clear();
         this.maxGradesTextField.clear();
         this.droppedGradesTextField.clear();
-    }
-
-    private void clearCourseFields() {
-        this.courseNameTextField.clear();
-        this.courseIDTextField.clear();
-        this.semesterTextField.clear();
-        this.subsectionsListView.getItems().clear();
-    }
-
-    private void clearAllFields() {
-        this.clearCourseFields();
-        this.clearSubsectionFields();
     }
 
     private void setError(String message) {
