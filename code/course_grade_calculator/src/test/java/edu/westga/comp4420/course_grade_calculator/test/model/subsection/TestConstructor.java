@@ -21,7 +21,8 @@ public class TestConstructor {
                 () -> assertTrue(subsection.getGrades().isEmpty()),
                 () -> assertEquals(3, subsection.getMaxGradeCount()),
                 () -> assertEquals(1, subsection.getDroppedGradeCount()),
-                () -> assertEquals("Test (Weight: 20%)", subsection.toString()));
+                () -> assertEquals("Test (Weight: 20%)", subsection.toString()),
+                () -> assertEquals(0, subsection.getGradeCount()));
     }
 
     //region Name Tests

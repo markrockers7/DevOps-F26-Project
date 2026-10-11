@@ -1,16 +1,24 @@
 package edu.westga.comp4420.course_grade_calculator.view.codebehind;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.westga.comp4420.course_grade_calculator.Main;
 import edu.westga.comp4420.course_grade_calculator.model.Course;
 import edu.westga.comp4420.course_grade_calculator.model.Subsection;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 
 
@@ -96,19 +104,26 @@ public class CreateCourseWindow {
         this.tryCreateCourse(courseName, courseID, semester, subsections);
     }
 
-    //TODO Remove the print statements and add the course to Course Selection Window
     private void tryCreateCourse(String courseName, String courseID, String semester, ArrayList<Subsection> subsections) {
         try {
             var course = new Course(courseName, courseID, semester, subsections);
-            System.out.println("Course Name: " + course.getName());
-            System.out.println("Course ID: " + course.getCourseId());
-            System.out.println("Semester: " + course.getSemester());
-            for (Subsection subsection : course.getSubsections()) {
-                System.out.println(subsection);
-            }
-            this.errorLabel.setVisible(false);
-            this.clearAllFields();
-        } catch (IllegalArgumentException e) {
+
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource(Main.COURSE_SELECTION_WINDOW));
+			loader.load();
+            CourseSelectionWindow controller = loader.getController();
+            controller.loadCourse(course);
+			Parent parent = loader.getRoot();
+			Scene scene = new Scene(parent);
+			Stage activeStage = (Stage) this.backButton.getScene().getWindow();
+            activeStage.setTitle(Main.WINDOW_TITLE);
+			activeStage.setScene(scene);
+			activeStage.show();
+		} catch (IOException error) {
+			Alert errorBox = new Alert(AlertType.ERROR);
+			errorBox.setContentText("Unable to open add window");
+			errorBox.showAndWait();
+		} catch (IllegalArgumentException e) {
             this.setError(e.getMessage());
         }
     }
@@ -149,7 +164,21 @@ public class CreateCourseWindow {
 
     @FXML
     void onBackClick() {
-        // Back button logic here
+        try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource(Main.COURSE_SELECTION_WINDOW));
+			loader.load();
+			Parent parent = loader.getRoot();
+			Scene scene = new Scene(parent);
+			Stage activeStage = (Stage) this.backButton.getScene().getWindow();
+            activeStage.setTitle(Main.WINDOW_TITLE);
+			activeStage.setScene(scene);
+			activeStage.show();
+		} catch (IOException error) {
+			Alert errorBox = new Alert(AlertType.ERROR);
+			errorBox.setContentText("Unable to open add window");
+			errorBox.showAndWait();
+		}
     }
 
     private void setBindings() {
@@ -189,18 +218,6 @@ public class CreateCourseWindow {
         this.subsectionWeightTextField.clear();
         this.maxGradesTextField.clear();
         this.droppedGradesTextField.clear();
-    }
-
-    private void clearCourseFields() {
-        this.courseNameTextField.clear();
-        this.courseIDTextField.clear();
-        this.semesterTextField.clear();
-        this.subsectionsListView.getItems().clear();
-    }
-
-    private void clearAllFields() {
-        this.clearCourseFields();
-        this.clearSubsectionFields();
     }
 
     private void setError(String message) {

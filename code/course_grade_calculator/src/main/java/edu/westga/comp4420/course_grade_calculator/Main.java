@@ -16,7 +16,9 @@ import java.io.IOException;
 public class Main extends Application {
 
     public static final String WINDOW_TITLE = "Course Grade Calculator";
-	public static final String MAIN_WINDOW_RESOURCE = "view/codebehind/CourseSelectionWindow.fxml";
+	public static final String COURSE_SELECTION_WINDOW = "view/codebehind/CourseSelectionWindow.fxml";
+	public static final String ADD_GRADE_WINDOW = "view/codebehind/AddGradeWindow.fxml";
+	public static final String CREATE_COURSE_WINDOW = "view/codebehind/CreateCourseWindow.fxml";
 
     /**
      * JavaFX entry point
@@ -28,7 +30,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource(Main.MAIN_WINDOW_RESOURCE));
+        Parent parent = FXMLLoader.load(getClass().getResource(Main.COURSE_SELECTION_WINDOW));
 		Scene scene = new Scene(parent);
 		primaryStage.setTitle(WINDOW_TITLE);
 		primaryStage.setScene(scene);

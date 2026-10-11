@@ -35,7 +35,8 @@ public class TestConstructor {
             () -> assertEquals(VALID_NAME, course.getName()),
             () -> assertEquals(VALID_COURSE_ID, course.getCourseId()),
             () -> assertEquals(VALID_SEMESTER, course.getSemester()),
-            () -> assertEquals(1, course.getSubsections().size())
+            () -> assertEquals(1, course.getSubsections().size()),
+            () -> assertEquals(VALID_NAME + " (" + VALID_COURSE_ID + ") - " + VALID_SEMESTER, course.toString())
         );
     }
 
