@@ -11,7 +11,7 @@ public class Subsection {
     private static final String DROPPED_GRADES_GREATER_THAN_TOTAL_ERROR = "Dropped grades cannot be greater than or equal to total grades";
 
     private static final Double DEFAULT_MINIMUM_GRADE = 0.0;
-
+    private static final Integer PERFECT_PERCENTAGE_GRADE = 100;
     private String name;
     private int weight;
     private ArrayList<Grade> grades;
@@ -143,7 +143,7 @@ public class Subsection {
                 }
                 total = total / (sortedGrades.size() - this.droppedGradeCount);
             } else {
-                total = DEFAULT_MINIMUM_GRADE;
+                total = PERFECT_PERCENTAGE_GRADE;
             }
         }
         return total;
@@ -159,6 +159,73 @@ public class Subsection {
      */
     public double getWeightedAverageGrade() {
         return this.getAverageGrade() * (this.weight / 100.0);
+    }
+
+    /**
+     * Calculates the end grade of the subsection, taking into account any dropped grades and the maximum grade count.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return the end grade of the subsection
+     */
+    public double getEndGrade() {
+        if (this.grades.isEmpty()) {
+            return PERFECT_PERCENTAGE_GRADE;
+        }
+        double total = DEFAULT_MINIMUM_GRADE;
+        if (this.hasNoMaxGrades()) {
+            total = this.getAverageGrade();
+        } else if (!this.hasDroppedGrades()) {
+            total = this.noDroppedGradesEndGrade(total);
+        } else {
+            total = this.droppedGradesEndGrade(total);
+        }
+        return total;
+    }
+
+    private double droppedGradesEndGrade(double total) {
+        if (this.hasMoreGradesThanDropped()) {
+            if (this.hasLessGradesThanMax()) {
+                ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
+                sortedGrades.sort((g1, g2) -> Double.compare(g1.getScore(), g2.getScore()));
+                for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
+                    total += sortedGrades.get(i).getPercentage();
+                }
+                for (int i = this.grades.size(); i < this.maxGradeCount; i++) {
+                    total += PERFECT_PERCENTAGE_GRADE;
+                }
+                total = total / (this.maxGradeCount - this.droppedGradeCount);
+            } else {
+                ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
+                sortedGrades.sort((g1, g2) -> Double.compare(g1.getScore(), g2.getScore()));
+                for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
+                    total += sortedGrades.get(i).getScore();
+                }
+                total = total / (sortedGrades.size() - this.droppedGradeCount);
+            }
+        } else {
+            total = PERFECT_PERCENTAGE_GRADE;
+        }
+        return total;
+    }
+
+    private double noDroppedGradesEndGrade(double total) {
+        if (this.hasLessGradesThanMax()) {
+            for (Grade grade : this.grades) {
+                total += grade.getPercentage();
+            }
+            for (int i = this.grades.size(); i < this.maxGradeCount; i++) {
+                total += PERFECT_PERCENTAGE_GRADE;
+            }
+            total = total / this.maxGradeCount;
+        } else {
+            for (Grade grade : this.grades) {
+                total += grade.getScore();
+            }
+            total = total / this.maxGradeCount;
+        }
+        return total;
     }
 
     // #endregion
@@ -208,6 +275,14 @@ public class Subsection {
 
     private boolean hasMoreGradesThanDropped() {
         return this.grades.size() > this.droppedGradeCount;
+    }
+
+    private boolean hasLessGradesThanMax() {
+        return this.grades.size() < this.maxGradeCount;
+    }
+
+    private boolean hasNoMaxGrades() {
+        return this.maxGradeCount == 0;
     }
     // #endregion
 }
