@@ -10,28 +10,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //setup static public directory (to link images from view pages)
 app.use(express.static('public'))
 
-// route to index page
+// route to landing page
 app.get('/', function(req, res) {
-    res.render('page/index');
+    res.render('page/landingpage');
 });
 
-// route to api call for checking a phone number
-app.post('/api/check_phone_number', (req, res) => {
-	var number = req.body.number
-	if (isNaN(number)) {
-		res.render('page/fail');
-	} else if (number > 999999 && number < 10000000) {
-		res.render('page/success');
-	} else if (number > 999999999 && number < 10000000000) {
-		res.render('page/success');
-	} else { 
-		res.render('page/fail');
-	}
-});
-
-// route to tests page
-app.get('/tests', function(req, res) {
-	res.render('page/tests');
+// route to documentation page
+app.get('/documentation', function(req, res) {
+	res.render('page/documentation');
 });
 
 //start the web app
