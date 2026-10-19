@@ -20,6 +20,11 @@ app.get('/documentation', function(req, res) {
 	res.render('page/documentation');
 });
 
+// route to quickstart page
+app.get('/quickstart', function(req, res) {
+	res.render('page/quickstart');
+});
+
 //start the web app
 app.listen(8080, function () {
 	console.log('App listening on port 8080!');
