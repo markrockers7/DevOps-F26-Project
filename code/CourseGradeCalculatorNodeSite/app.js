@@ -33,6 +33,10 @@ app.get('/addgrade', function(req, res) {
 	res.render('page/features/addgrade');
 });
 
+app.get('/viewgrades', function(req, res) {
+	res.render('page/features/viewgrade');
+});
+
 //start the web app
 app.listen(8080, function () {
 	console.log('App listening on port 8080!');
