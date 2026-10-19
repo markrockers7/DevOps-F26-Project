@@ -25,6 +25,10 @@ app.get('/quickstart', function(req, res) {
 	res.render('page/quickstart');
 });
 
+app.get('/createcourse', function(req, res) {
+	res.render('page/features/createcourse');
+});
+
 //start the web app
 app.listen(8080, function () {
 	console.log('App listening on port 8080!');
