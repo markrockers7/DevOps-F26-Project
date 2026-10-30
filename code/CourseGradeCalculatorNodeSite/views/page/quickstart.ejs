@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Course Grade Calculator Quickstart</title>
+    <meta name="description" content="Project for COMP 4420 University of West Georgia Spring 2026">
+    <meta name="author" content="Mark Rockers">
+    <!-- Bootstrap CSS Reset -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+ <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/documentation">Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/quickstart">Quickstart</a>
+            </li>
+          </ul>
+    </nav>
+ <!-- Content -->
+    <div class="container" style="margin-top: 20px; background-color: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #dee2e6;">
+        <h1>This is the Quickstart Page</h1>
+        <p>Welcome to the Quickstart Page! This is where you can get started with the project.</p>
+        <p>Follow these steps to get started:</p>
+        <ol>
+            <li>Clone the repository from GitHub with this command: git clone https://github.com/markrockers7/DevOps-F26-Project.git</li>
+            <button onclick="copyRepoLink()">Copy Repository Link</button>
+            <li>Install the necessary dependencies like Java and Maven.</li>
+            <li>Run the application locally with either 'mvn javafx:run' inside the root project with your terminal or Git Bash, or running the Launcher file inside of an IDE like Visual Studio Code.</li>
+            <li>Start Entering Grades!</li>
+        </ol>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+<script>
+    function copyRepoLink() {
+        const repoLink = "https://github.com/markrockers7/DevOps-F26-Project.git";
+        navigator.clipboard.writeText(repoLink);
+    }
+</script>
+</html>
+
+
