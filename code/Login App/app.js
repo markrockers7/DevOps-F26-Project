@@ -1,3 +1,5 @@
+var checker = require('./account_verification');
+
 //Setup sqlite to manage db connection/query
 const sqlite3 = require('sqlite3').verbose();
 
@@ -91,19 +93,22 @@ app.post('/api/attempt_login', async function(req, res) {
 	var usernameInput = req.body.username;
 	var passwordInput = req.body.password;
 	const params = [usernameInput, passwordInput]
-	
-	const db = new connectToDB();
-	
-	try {
-		await checkLogin(db, checkLoginQuery, params);
-		res.render('page/landingpage', {username: usernameInput});
-	}
-	catch (err) {
-		console.log(err);
+
+	if (!checker(usernameInput, passwordInput)) {
 		res.render('page/login', { error: 'Invalid username or password.' });
-	} finally {
-		closeDB(db);
+		return;
 	}
+	const db = new connectToDB();
+		try {
+			await checkLogin(db, checkLoginQuery, params);
+			res.render('page/landingpage', {username: usernameInput});
+		}
+		catch (err) {
+			console.log(err);
+			res.render('page/login', { error: 'Invalid username or password.' });
+		} finally {
+			closeDB(db);
+		}
 });
 
 // route to account creation page
@@ -117,6 +122,11 @@ app.post('/api/attempt_account_creation', async function(req, res) {
 	var passwordInput = req.body.password;
 	const params = [usernameInput, passwordInput]
 	
+	if (!checker(usernameInput, passwordInput)) {
+		res.render('page/accountcreation', { error: 'Invalid username or password.' });
+		return;
+	}
+
 	const db = new connectToDB();
 	
 	try {
