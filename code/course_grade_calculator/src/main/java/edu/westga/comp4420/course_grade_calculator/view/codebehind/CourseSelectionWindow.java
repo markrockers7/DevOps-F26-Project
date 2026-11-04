@@ -83,7 +83,7 @@ public class CourseSelectionWindow {
             Parent parent = loader.getRoot();
             Scene scene = new Scene(parent);
             Stage activeStage = (Stage) this.inputGradesButton.getScene().getWindow();
-            activeStage.setTitle("Add Grade");
+            activeStage.setTitle("Create Course");
             activeStage.setScene(scene);
             activeStage.show();
         } catch (IOException error) {
