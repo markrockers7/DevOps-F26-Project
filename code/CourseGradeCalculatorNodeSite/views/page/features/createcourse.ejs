@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Creating a Course</title>
+    <meta name="description" content="Project for COMP 4420 University of West Georgia Spring 2026">
+    <meta name="author" content="Mark Rockers">
+    <!-- Bootstrap CSS Reset -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+ <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/documentation">Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/quickstart">Quickstart</a>
+            </li>
+          </ul>
+    </nav>
+ <!-- Content -->
+    <div class="container" style="margin-top: 20px; background-color: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #dee2e6;">
+        <h1>Create a Course</h1>
+        <p>This is the page for learing how to create a new course in the Course Grade Calculator.</p>
+        <br>
+        <p>To create a new course, follow these steps:</p>
+        <ol>
+            <li>Click on the "Add Course" button on the main page.</li>
+            <img src="/images/LandingPage.png" alt="Landing Page of the Course Grade Calculator" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <li>It will take you to the course creation form.</li>
+            <img src="/images/CreateCourse.png" alt="Create Course Page of the Course Grade Calculator" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <li>You will need to make sure a Course has a Name, Code, and Semester.</li>
+            <li>You will then need to create a Subsection with a name and weight. The Max and Dropped Grades must be greater than or equal to 0.</li>
+            <li>You must have at least one Subsection. All subsections weights must equal 100% exactly.</li>
+            <li>Click "Submit" to create the course.</li>
+        </ol>
+        <p>Once the course is created, you will be redirected to the main page where you can see the newly created course.</p>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+package edu.westga.comp4420.course_grade_calculator.model;
+
+import java.util.ArrayList;
+
+public class Subsection {
+
+    private static final String INVALID_NAME_ERROR = "Name cannot be null or empty";
+    private static final String INVALID_WEIGHT_ERROR = "Weight must be between 0 and 100";
+    private static final String NEGATIVE_TOTAL_GRADES_ERROR = "Total grades cannot be negative";
+    private static final String NEGATIVE_DROPPED_GRADES_ERROR = "Dropped grades cannot be negative";
+    private static final String DROPPED_GRADES_GREATER_THAN_TOTAL_ERROR = "Dropped grades cannot be greater than or equal to total grades";
+
+    private static final Double DEFAULT_MINIMUM_GRADE = 0.0;
+    private static final Integer PERFECT_PERCENTAGE_GRADE = 100;
+    private String name;
+    private int weight;
+    private ArrayList<Grade> grades;
+    private int maxGradeCount;
+    private int droppedGradeCount;
+
+    /**
+     * Creates a Subsection with the given name, weight, total grades, and dropped
+     * grades.
+     * Total Grades is what the expected number of grades in the subsection is
+     * supposed to be, if it is zero then there is no limit.
+     * Dropped Grades is how many grades are allowed to be dropped from the
+     * subsection, if it is zero then no grades can be dropped.
+     * 
+     * @param name              The name of the subsection
+     * @param weight            The weight of the subsection
+     * @param maxGradeCount     The total number of grades in the subsection
+     * @param droppedGradeCount The number of grades that can be dropped from the subsection
+     */
+    public Subsection(String name, int weight, int maxGradeCount, int droppedGradeCount) {
+        if (!this.isValidName(name)) {
+            throw new IllegalArgumentException(INVALID_NAME_ERROR);
+        }
+        if (!this.isValidWeight(weight)) {
+            throw new IllegalArgumentException(INVALID_WEIGHT_ERROR);
+        }
+        if (maxGradeCount < 0) {
+            throw new IllegalArgumentException(NEGATIVE_TOTAL_GRADES_ERROR);
+        }
+        if (droppedGradeCount < 0) {
+            throw new IllegalArgumentException(NEGATIVE_DROPPED_GRADES_ERROR);
+        }
+        if (!this.isValidTotalGradeCount(maxGradeCount, droppedGradeCount)) {
+            throw new IllegalArgumentException(DROPPED_GRADES_GREATER_THAN_TOTAL_ERROR);
+        }
+        this.name = name;
+        this.weight = weight;
+        this.grades = new ArrayList<Grade>();
+        this.maxGradeCount = maxGradeCount;
+        this.droppedGradeCount = droppedGradeCount;
+    }
+
+    // #region Getters
+
+    /**
+     * Gets the name of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The name of the subsection
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the weight of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The weight of the subsection
+     */
+    public int getWeight() {
+        return this.weight;
+    }
+
+    /**
+     * Gets the grades of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The grades of the subsection
+     */
+    public ArrayList<Grade> getGrades() {
+        return this.grades;
+    }
+
+    /**
+     * Gets the grade count of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The grade count of the subsection
+     */
+    public int getGradeCount() {
+        return this.grades.size();
+    }
+
+    /**
+     * Gets the total grade count of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The total grade count of the subsection
+     */
+    public int getMaxGradeCount() {
+        return this.maxGradeCount;
+    }
+
+    /**
+     * Gets the dropped grade count of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return The dropped grade count of the subsection
+     */
+    public int getDroppedGradeCount() {
+        return this.droppedGradeCount;
+    }
+
+    /**
+     * Calculates the average grade of the subsection, taking into account any dropped grades.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return the average grade of the subsection, or 0.0 if there are no grades or not enough grades to calculate an average
+     */
+    public double getAverageGrade() {
+        if (this.grades.isEmpty()) {
+            return DEFAULT_MINIMUM_GRADE;
+        }
+        double total = DEFAULT_MINIMUM_GRADE;
+        if (!this.hasDroppedGrades()) {
+            for (Grade grade : this.grades) {
+                total += grade.getPercentage();
+            }
+            total = total / this.grades.size();
+        } else {
+            if (this.hasMoreGradesThanDropped()) {
+                ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
+                sortedGrades.sort((g1, g2) -> Double.compare(g1.getScore(), g2.getScore()));
+                for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
+                    total += sortedGrades.get(i).getPercentage();
+                }
+                total = total / (sortedGrades.size() - this.droppedGradeCount);
+            } else {
+                total = PERFECT_PERCENTAGE_GRADE;
+            }
+        }
+        return total;
+    }
+
+    /**
+     * Calculates the weighted average grade of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return the weighted average grade of the subsection
+     */
+    public double getWeightedAverageGrade() {
+        return this.getAverageGrade() * (this.weight / 100.0);
+    }
+
+    /**
+     * Calculates the end grade of the subsection, taking into account any dropped grades and the maximum grade count.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return the end grade of the subsection
+     */
+    public double getEndGrade() {
+        if (this.grades.isEmpty()) {
+            return PERFECT_PERCENTAGE_GRADE;
+        }
+        double total = DEFAULT_MINIMUM_GRADE;
+        if (this.hasNoMaxGrades()) {
+            total = this.getAverageGrade();
+        } else if (!this.hasDroppedGrades()) {
+            total = this.noDroppedGradesEndGrade(total);
+        } else {
+            total = this.droppedGradesEndGrade(total);
+        }
+        return total;
+    }
+
+    /**
+     * Calculates the weighted end grade of the subsection.
+     * 
+     * @precondition none
+     * @postcondition none
+     * 
+     * @return the weighted end grade of the subsection
+     */
+    public double getWeightedEndGrade() {
+        return this.getEndGrade() * (this.weight / 100.0);
+    }
+
+    private double droppedGradesEndGrade(double total) {
+        if (this.hasMoreGradesThanDropped()) {
+            if (this.hasLessGradesThanMax()) {
+                ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
+                sortedGrades.sort((g1, g2) -> Double.compare(g1.getPercentage(), g2.getPercentage()));
+                for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
+                    total += sortedGrades.get(i).getPercentage();
+                }
+                for (int i = this.grades.size(); i < this.maxGradeCount; i++) {
+                    total += PERFECT_PERCENTAGE_GRADE;
+                }
+                total = total / (this.maxGradeCount - this.droppedGradeCount);
+            } else {
+                ArrayList<Grade> sortedGrades = new ArrayList<Grade>(this.grades);
+                sortedGrades.sort((g1, g2) -> Double.compare(g1.getPercentage(), g2.getPercentage()));
+                for (int i = this.droppedGradeCount; i < sortedGrades.size(); i++) {
+                    total += sortedGrades.get(i).getPercentage();
+                }
+                total = total / (sortedGrades.size() - this.droppedGradeCount);
+            }
+        } else {
+            total = PERFECT_PERCENTAGE_GRADE;
+        }
+        return total;
+    }
+
+    private double noDroppedGradesEndGrade(double total) {
+        if (this.hasLessGradesThanMax()) {
+            for (Grade grade : this.grades) {
+                total += grade.getPercentage();
+            }
+            for (int i = this.grades.size(); i < this.maxGradeCount; i++) {
+                total += PERFECT_PERCENTAGE_GRADE;
+            }
+            total = total / this.maxGradeCount;
+        } else {
+            for (Grade grade : this.grades) {
+                total += grade.getPercentage();
+            }
+            total = total / this.maxGradeCount;
+        }
+        return total;
+    }
+
+    // #endregion
+
+    /**
+     * Adds a grade to the subsection.
+     * 
+     * @precondition grade != null
+     * @postcondition grades.size() == grades.size()@prev + 1
+     * 
+     * @param grade The grade to add
+     */
+    public void addGrade(Grade grade) {
+        if (grade == null) {
+            throw new IllegalArgumentException("Grade cannot be null");
+        }
+        if (this.maxGradeCount > 0 && this.grades.size() >= this.maxGradeCount) {
+            throw new IllegalArgumentException("Cannot add more grades than the total grade count");
+        }
+        this.grades.add(grade);
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " (Weight: " + this.weight + "%)";
+    }
+
+    // #region Private Methods
+    private boolean isValidName(String name) {
+        return name != null && !name.isEmpty();
+    }
+
+    private boolean isValidWeight(int weight) {
+        return weight >= 0 && weight <= 100;
+    }
+
+    private boolean isValidTotalGradeCount(int maxGradeCount, int droppedGrades) {
+        if (maxGradeCount > 0) {
+            return droppedGrades < maxGradeCount;
+        }
+        return true;
+    }
+
+    private boolean hasDroppedGrades() {
+        return this.droppedGradeCount > 0;
+    }
+
+    private boolean hasMoreGradesThanDropped() {
+        return this.grades.size() > this.droppedGradeCount;
+    }
+
+    private boolean hasLessGradesThanMax() {
+        return this.grades.size() < this.maxGradeCount;
+    }
+
+    private boolean hasNoMaxGrades() {
+        return this.maxGradeCount == 0;
+    }
+    // #endregion
+}
